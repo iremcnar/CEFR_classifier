@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CEFR Tahmin</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 0 auto; padding: 20px; }
+        textarea { width: 100%; height: 100px; margin: 10px 0; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; }
+        #result { margin-top: 20px; padding: 15px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>CEFR Seviye Tahmini</h1>
+    <textarea id="textInput" placeholder="İngilizce metin girin..."></textarea>
+    <button onclick="predict()">Tahmin Et</button>
+    <div id="result"></div>
+
+    <script>
+        async function predict() {
+            const text = document.getElementById('textInput').value;
+            const response = await fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = "Tahmin: " + result.level;
+        }
+    </script>
+</body>
+</html>
